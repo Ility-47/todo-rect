@@ -1,0 +1,27 @@
+.container{
+  width: 80%;
+  margin: 0 auto;
+  height: 100vh;
+  color: #123456;
+}
+
+.title{
+  font-size: calc(var(--index) * 4);
+  line-height: 150%;
+}
+
+.subtitle{
+  font-size: calc(var(--index) * 1);
+}
+
+.list__item{
+  width: 50%;
+  font-size: calc(var(--index) * 1);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: calc(var(--index) *.5) calc(var(--index) * 1);
+  cursor: pointer;
+}
