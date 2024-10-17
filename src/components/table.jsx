@@ -6,7 +6,6 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 let Table = () =>{
     const [isTask, getTask] = useState('')
-    const [isDate, getDate] = useState('')
     const [selectedDate, setSelectedDate] = useState(null);
     const [days, setDays] = useState([
         {
@@ -44,9 +43,6 @@ let Table = () =>{
         getTask(event.target.value)
     }
 
-    const handleDate = (event) =>{ //записываем дату
-        getDate(event.target.value)
-    }
 
     const pushTask = (dayEvent) =>{ // создание задачи
         days.map(day =>{
@@ -60,6 +56,7 @@ let Table = () =>{
                 day.isActiveAdd = false
             }
         })
+        console.log(selectedDate)
         getTask('')
         setSelectedDate(null)
     }
@@ -70,19 +67,6 @@ let Table = () =>{
         ));
     };
 
-    // чтобы открывался календарь по клику на спан
-
-    const dateInputRef = useRef(null); 
-
-    const handleCalendarClick = () => { 
-        if(dateInputRef.current){
-            dateInputRef.current.focus(); // Затем открываем стандартный календарь 
-            dateInputRef.current.click(); // Затем открываем стандартный календарь 
-            
-            console.log(5)
-        }
-        console.log(2)
-    }; 
 
 
     return(
@@ -120,10 +104,10 @@ let Table = () =>{
                                             <i className="fa-regular fa-calendar"></i>
                                         </span> */}
                                     </div>                                        
-                                    <button className={s.table__add__button} onClick={() => pushTask(day)}>send</button>
+                                    <button className={s.table__send__button} onClick={() => pushTask(day)}>send</button>
                                 </>
                                 )}
-                            <button onClick={() => toggleAdd(day.name)}><i className="fa-solid fa-plus"></i></button>
+                            <button className={s.table__add__button} onClick={() => toggleAdd(day.name)}><i className="fa-solid fa-plus"></i></button>
                         </div> 
                     </div>        
                 ))}

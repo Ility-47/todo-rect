@@ -24,6 +24,7 @@
     text-align: center;
     font-size: calc(var(--index) *1);
     text-transform: uppercase;
+    margin-bottom: calc(var(--index) * .5);
 }
 
 .table__task{
@@ -38,11 +39,21 @@
 .table__add__button{
     width: 100%;
     border: none;
-    background-color: aqua;
-    font-size: calc(var(--index) * 1.5);
-    padding: calc(var(--index) * .5) 0 ;
+    background-color: #fff;
+    font-size: calc(var(--index) * 1);
+    padding: calc(var(--index) * .3) 0 ;
     border-radius: 10px;
     cursor: pointer;
+    border: 1px solid #123456;
+}
+
+.table__send__button{
+    width: 100%;
+    border: 1px solid #123456;
+    border-radius: 10px;
+    margin: calc(var(--index) * .3) 0;
+    font-size: calc(var(--index) * .7);
+    padding: calc(var(--index) * .2);
 }
 
 .table__add__wrapper{

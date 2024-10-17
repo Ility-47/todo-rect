@@ -3,6 +3,7 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import Table from './components/table.jsx'
+import Registration from './components/registration/registration.jsx'
 
 function App() {
 
@@ -21,7 +22,8 @@ function App() {
           <i class="fa-solid fa-plus"></i>
         </div>
       </div> */}
-      <Table />
+        {/* <Table /> */}
+        <Registration />
     </div>
     </>
   )
