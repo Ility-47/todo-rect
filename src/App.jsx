@@ -4,12 +4,17 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import Table from './components/table.jsx'
 import Registration from './components/registration/registration.jsx'
-
+import Header from './components/header/header.jsx'
+import {
+  Route,
+  BrowserRouter,
+  Routes
+} from 'react-router-dom';
 function App() {
 
   return (
     <>
-    <div className='container'>
+    
       {/* <h1 className='title'>Todo list</h1>
       <div className='subtitle'>
         Выберите нужный тип заметки
@@ -23,8 +28,17 @@ function App() {
         </div>
       </div> */}
         {/* <Table /> */}
-        <Registration />
-    </div>
+        {/* <Registration /> */}
+        <BrowserRouter>
+        <Header />
+        <div className='container'>
+        <Routes>
+          <Route path="/Table" element={<Table />} />
+          <Route path="/Registration" element={<Registration />} />
+        </Routes>
+        </div>
+      </BrowserRouter>
+    
     </>
   )
 }

@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import s from './registration.module.css'
 import {users} from '../../state'
+import bcrypt from 'bcryptjs'
+
 const Registration = () =>{
     const [isData, setData] = useState({
         isName: '',
@@ -8,33 +10,70 @@ const Registration = () =>{
         isPass: '',
         isEmail: '',
     })
+    const [isActive, setActive] = useState(false)
+    const [isActiveClass, setActiveClass] = useState(false)
+    const [zIndex, setZIndex] = useState(1)
     
-  const changeData = (e) => {
-    const { name, value } = e.target;
-    setData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-    const adduser = () =>{
+    const handleAnimationEnd = () => {
+        // Устанавливаем z-index на 1000 после окончания анимации
+        setTimeout(() => (setZIndex(1000)), 1000)
+    };
+    
+
+    //Добавление эктив при нажатии на переключатель формы
+    const changeActive = () =>{
+        setActiveClass(!isActiveClass)
+        setZIndex(1);
+    }
+    //запись в дату всего
+    const changeData = (e) => {
+        const { name, value } = e.target;
+        setData((prevData) => ({
+        ...prevData,
+        [name]: value,
+        }));
+    };
+    //создание пользователя
+    const addUser = (event) =>{
+        event.preventDefault()
+    //Хэширование пароля
+        let hashPass = bcrypt.hashSync(isData.isPass, 8);
         users.push(
             {
                 id: users.length + 1,
                 login: isData.isLogin,
-                password: isData.isPass,
+                password: hashPass,
                 tasks: [], 
             }
-        )
-        console.log(isData)
+        )  
+    }
+    // проверка пользователя
+    const checkUser = (event) =>{
+        event.preventDefault()
+        users.map(user =>{
+            let hashPass = bcrypt.hashSync(isData.isPass, 8),
+                result = bcrypt.compareSync( isData.isPass ,  hashPass )
+            if(user.login == isData.isLogin && result){
+                setActive(true)
+            }
+        })
+     
     }
     return(
-        <div className={s.container}>
-            <div className={s.form__buttons}>
-                <button>Войти</button>
-                <button>Зарегистрироваться</button>
-            </div>
-            {/* <div className={s.wrapper} style={{display : 'none'}}>
-                <h2 className={s.title}>Добро пожаловать!</h2>
+        <>
+    {!isActive && (
+    <div className={s.container}>
+        <div className={s.form__buttons}>
+            <button onClick={changeActive}>Войти</button>
+            <button>Зарегистрироваться</button>
+        </div>
+        <div className={s.container__wrapper}>
+            <div 
+                className={isActiveClass ? s.wrapper + ' ' + s.logIn + ' ' + s.active : s.wrapper}
+                style={{zIndex}}
+                onAnimationStart={handleAnimationEnd}
+            >
+                <h2 className={s.title}>Здравствуйте!</h2>
                 <form action="">
                     <div className={s.login}>
                         <label htmlFor="login">Логин:</label> 
@@ -54,10 +93,10 @@ const Registration = () =>{
                             onChange={changeData}
                         />
                     </div>
-                    <button className={s.signIn}>Войти</button>
+                    <button className={s.signInBtn} onClick={checkUser}>Войти</button>
                 </form>
-            </div> */}
-            <div className={s.wrapper}>
+            </div> 
+            <div className={s.wrapper + ' ' + s.signIn}>
                 <h2 className={s.title}>Добро пожаловать!</h2>
                 <form action="">
                 <div className={s.login}>
@@ -104,10 +143,12 @@ const Registration = () =>{
                             onChange={changeData}
                         />
                     </div>
-                    <div onClick={adduser} className={s.signIn}>Зарегистрироваться</div>
+                    <button onClick={addUser} className={s.signInBtn}>Зарегистрироваться</button>
                 </form>
             </div>
-        </div>
+        </div>    
+    </div>)}
+    </>
     )
 }
 

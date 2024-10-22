@@ -8,3 +8,13 @@
   border: 0;
   box-sizing: border-box;
 }
+
+body{
+  overflow: hidden;
+}
+
+.container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
