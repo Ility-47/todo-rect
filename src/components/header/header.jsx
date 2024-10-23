@@ -20,7 +20,6 @@ const User = ({name, clas, logo}) => {
         </>
     )
 }
-
 const Menu = () =>{
     return (
         <div className={h.menu}>
