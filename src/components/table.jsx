@@ -43,7 +43,34 @@ let Table = () =>{
         getTask(event.target.value)
     }
 
+    const getDateParts = (date) => {
+        if (!date) return {};
+        
+        const options = { month: 'long' }; // Опции для форматирования месяца
+        const monthName = date.toLocaleString('default', options); // Получаем название месяца
 
+        const daysOfWeek = [
+            'Воскресенье', 
+            'Понедельник', 
+            'Вторник', 
+            'Среда', 
+            'Четверг', 
+            'Пятница', 
+            'Суббота'
+          ];
+
+        return {
+          day: date.getDate(),
+          month: monthName,
+          weekday:daysOfWeek[date.getDay()],
+          year: date.getFullYear(),
+          time: date.toLocaleTimeString(), // Получаем время
+        };
+      };
+    
+    const dateParts = getDateParts(selectedDate);
+    
+    
     const pushTask = (dayEvent) =>{ // создание задачи
         days.map(day =>{
             if(isTask != '' && day.name == dayEvent.name){
@@ -51,12 +78,12 @@ let Table = () =>{
                     id: tasks.length + 1,
                     text: isTask,
                     day: day.name,
-                    date: selectedDate,
+                    date: dateParts,
                 })
                 day.isActiveAdd = false
             }
         })
-        console.log(selectedDate)
+        tasks.sort((a,b) => a.date - b.date)
         getTask('')
         setSelectedDate(null)
     }
@@ -67,20 +94,20 @@ let Table = () =>{
         ));
     };
 
-
-
     return(
         <>
         <h1 className={s.title}>Таблица</h1> 
         <div className={s.table__container}>
-                {days.map((day, key) =>(
+                {days.map((day, key) =>(  // цикл по дням
                     <div className={s.table__col} key={key}>
                         <h3 className={s.table__col__name}>{day.name}</h3>
                         
-                            {tasks.map(item =>{
-                                if(item.day == day.name) return (<div className={s.table__task}>{`${item.text}, ${item.date}`}</div>)
+                            {tasks.map(item =>{  // цикл по задачам
+                                if(item.date.weekday.toLowerCase() == day.name) 
+                                    return (<div className={s.table__task}>{`${item.text}, ${item.date.day} ${item.date.month} ${item.date.time}`}</div>)
                             })}
-                        
+
+                        {/* далее для добавления задачи */}
                         <div className={s.table__add__task}>   
                             {day.isActiveAdd && (
                                 <>
@@ -90,7 +117,7 @@ let Table = () =>{
                                             selected={selectedDate}
                                             onChange={(date) => setSelectedDate(date)} // обновляем дату
                                             showMonthDropdown  // показать выбор месяца
-                                            showYearDropdown   // показать выбор года
+                                            showTimeSelect
                                             dropdownMode="select" // стиль выбора (выпадающий список)
                                             dateFormat="dd/MM/yyyy" // формат даты
                                             customInput={

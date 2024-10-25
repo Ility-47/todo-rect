@@ -1,6 +1,7 @@
 .title{
     font-size: calc(var(--index) * 2);
     text-transform: uppercase;
+    width: 100%;
 }
 
 .table__container{

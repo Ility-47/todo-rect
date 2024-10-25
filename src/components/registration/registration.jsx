@@ -2,6 +2,7 @@ import { useState } from 'react'
 import s from './registration.module.css'
 import {users} from '../../state'
 import bcrypt from 'bcryptjs'
+import Table from '../table'
 
 const Registration = () =>{
     const [isData, setData] = useState({
@@ -12,18 +13,27 @@ const Registration = () =>{
     })
     const [isActive, setActive] = useState(false)
     const [isActiveClass, setActiveClass] = useState(false)
-    const [zIndex, setZIndex] = useState(1)
+    const [isActiveClassTwo, setActiveClassTwo] = useState(false)
+    const [zIndex, setZIndex] = useState({
+        one: 1,
+        two: 100,
+    })
     
-    const handleAnimationEnd = () => {
-        // Устанавливаем z-index на 1000 после окончания анимации
-        setTimeout(() => (setZIndex(1000)), 1000)
-    };
-    
+    // const handleAnimationEnd = () => {
+    //     // Устанавливаем z-index на 1000 после окончания анимации
+    //     setTimeout(() => (setZIndex(1000)), 1000)
+    // };
 
     //Добавление эктив при нажатии на переключатель формы
     const changeActive = () =>{
-        setActiveClass(!isActiveClass)
-        setZIndex(1);
+        setActiveClass(true)
+        setActiveClassTwo(false)
+        setTimeout(() => (setZIndex({one: 100, two: 1})), 1000)
+    }
+    const changeActiveTwo = () =>{
+        setActiveClassTwo(true)
+        setActiveClass(false)
+        setTimeout(() => (setZIndex({one: 1, two: 100})), 1000)
     }
     //запись в дату всего
     const changeData = (e) => {
@@ -61,21 +71,22 @@ const Registration = () =>{
     }
     return(
         <>
-    {!isActive && (
+    {!isActive ? (
     <div className={s.container}>
         <div className={s.form__buttons}>
-            <button onClick={changeActive}>Войти</button>
-            <button>Зарегистрироваться</button>
+            <button onClick={changeActive} className={s.logInToggle}>Войти</button>
+            <div className={s.jutokprome}></div>
+            <button onClick={changeActiveTwo} className={s.signInToggle}>Зарегистрироваться</button>
         </div>
         <div className={s.container__wrapper}>
             <div 
                 className={isActiveClass ? s.wrapper + ' ' + s.logIn + ' ' + s.active : s.wrapper}
-                style={{zIndex}}
-                onAnimationStart={handleAnimationEnd}
+                style={{zIndex: zIndex.one}}
+                // onAnimationStart={handleAnimationEnd}
             >
                 <h2 className={s.title}>Здравствуйте!</h2>
                 <form action="">
-                    <div className={s.login}>
+                    <div className={s.login + " " + s.form__item}>
                         <label htmlFor="login">Логин:</label> 
                         <input 
                             type="text"
@@ -84,7 +95,7 @@ const Registration = () =>{
                             onChange={changeData}
                         />
                     </div>
-                    <div className={s.password}>
+                    <div className={s.password + " " + s.form__item}>
                         <label htmlFor="pswd">Пароль:</label>
                         <input 
                             type="password"
@@ -93,13 +104,17 @@ const Registration = () =>{
                             onChange={changeData}
                         />
                     </div>
-                    <button className={s.signInBtn} onClick={checkUser}>Войти</button>
+                    <button className={s.form__btn} onClick={checkUser}>Войти</button>
                 </form>
             </div> 
-            <div className={s.wrapper + ' ' + s.signIn}>
+            <div 
+                className={!isActiveClassTwo ? s.wrapper + ' ' + s.signIn : s.wrapper + ' ' + s.signIn + ' ' + s.active }
+                style={{zIndex: zIndex.two}} 
+              //  onAnimationStart={handleAnimationEnd}
+            >
                 <h2 className={s.title}>Добро пожаловать!</h2>
                 <form action="">
-                <div className={s.login}>
+                <div className={s.login  + " " + s.form__item}>
                         <label htmlFor="name">Имя:</label> 
                         <input 
                             type="text"
@@ -110,7 +125,7 @@ const Registration = () =>{
                             onChange={changeData}
                         />
                     </div>
-                    <div className={s.login}>
+                    <div className={s.login  + " " + s.form__item}>
                         <label htmlFor="login">Логин:</label> 
                         <input 
                             type="text"
@@ -121,7 +136,7 @@ const Registration = () =>{
                             onChange={changeData}
                         />
                     </div>
-                    <div className={s.password}>
+                    <div className={s.password  + " " + s.form__item}>
                         <label htmlFor="pswd">Пароль:</label>
                         <input 
                             type="password"
@@ -132,7 +147,7 @@ const Registration = () =>{
                             onChange={changeData}
                         />
                     </div>
-                    <div className={s.login}>
+                    <div className={s.login  + " " + s.form__item}>
                         <label htmlFor="email">Электронная почта:</label> 
                         <input 
                             type="email"
@@ -143,11 +158,13 @@ const Registration = () =>{
                             onChange={changeData}
                         />
                     </div>
-                    <button onClick={addUser} className={s.signInBtn}>Зарегистрироваться</button>
+                    <button onClick={addUser} className={s.form__btn}>Зарегистрироваться</button>
                 </form>
             </div>
         </div>    
-    </div>)}
+    </div>) : (
+        <Table />
+    )}
     </>
     )
 }

@@ -3,21 +3,42 @@ button{
 }
 .container{
     width: calc(var(--index) * 30);
-    height: calc(var(--index) * 20);
+    height: calc(var(--index) * 23);
     margin: 0 auto;
-    border: 3px solid #123456;
+    border: 3px solid var(--gray400);
     display: flex;
     flex-direction: column;
+    border-radius: 25px;
+    box-shadow: 1px 0 20px #000;
 }
 
 .form__buttons{
     width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.logInToggle{
+    border-radius: 25px 0 0 0;
+}
+
+.signInToggle{
+    border-radius: 0 25px 0  0;
+}
+
+.jutokprome{
+    width: 3px;
+    height: 100%;
+    background-color: var(--gray400);
 }
 
 .form__buttons button{
     width: 50%;
     font-size: calc(var(--index) * 1.2);
     padding: calc(var(--index) * .7) 0;
+    background-color: var(--gray900);
+    color: var(--purple);
+    font-weight: 900;
 }
 
 .container__wrapper{
@@ -25,6 +46,7 @@ button{
     width: 100%;
     height:100%;
     position: relative;
+
 }
 
 .wrapper{
@@ -35,58 +57,74 @@ button{
     position: absolute;
     top: 0;
     left: 0;
-    background-color: aqua;
+    background-color: var(--gray700);
+    border-radius: 0 0 25px 25px;
+    z-index: 1;
 }
-
+/* 
 .signIn{
     z-index: 100;
 }
 
 .logIn{
     z-index: 1;
-    background-color: #123456;
-}
-
-.wrapper.signIn{
-    z-index: 100;
-}
+} */
 
 
 .title{
     text-align: center;
     font-size: calc(var(--index) * 2);
-    line-height: 140%;
+    line-height: 150%;
 }
 
 form{
     display: flex;
     flex-direction: column;
     align-items: center;
+    font-size: calc(var(--index) * 1);
+    width: 100%;
+}
+
+form input{
+    border-radius: 25px;
+    font-size: calc(var(--index) * .9);
+    padding: calc(var(--index) * .2) calc(var(--index) * .6);
+}
+
+form label{
+    padding-left: calc(var(--index) * .5);
+}
+
+.form__item{
+    width: 80%;
+    margin: 0 auto calc(var(--index) * .5);
 }
 
 .login{
-    width: 100%;
     display: flex;
     flex-direction: column;
 }
 
 .password{
-    width: 100%;
     display: flex;
     flex-direction: column;
 }
 
-.signInBtn{
-    background-color: transparent;
-    border: 1px solid #123456;
+.form__btn{
+    background-color: var(--purple);
+    border: none;
     border-radius: 25px;
     padding: calc(var(--index) * .2) calc(var(--index) * .6);
     width: fit-content;
-    margin-top: calc(var(--index) * 1.5);
+    margin: calc(var(--index) * 1) 0;
+    font-size: calc(var(--index) * 1.2);
+    color: var(--gray100);
+    box-shadow: 1px 0 5px var(--purple);
 }
 
 .active{
     animation: wrapOpen 2s;
+    z-index: 200;
 }
 
 @keyframes wrapOpen {
@@ -95,7 +133,7 @@ form{
         z-index: 1;
     }
     50%{
-        transform: translateY(calc(var(--index) * 20.3));
+        transform: translateY(calc(var(--index) * 23.3));
         z-index: 1;
     }
     100%{

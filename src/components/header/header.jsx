@@ -6,6 +6,20 @@ import {
   } from 'react-router-dom';
 import { useEffect, useState } from 'react';
   
+const CloseOpen = ({onClick, Icon, active}) =>{
+    const [isBack, setBack] = useState(false)
+    const closeClick = () =>{
+        onClick()
+    }
+    return(
+        <>
+            <div onClick={closeClick} className={active ? h.close__container + ' ' + h.active__back :  h.close__container}>
+            </div>
+            <button onClick={onClick} className={h.closeOpen}>{Icon}</button>
+        </>
+    )
+}
+
 const User = ({name, clas, logo}) => {
     return(
         <>
@@ -25,7 +39,7 @@ const Menu = () =>{
         <div className={h.menu}>
             <div className={h.wrapper}>
                 <Link to="/Table" className={h.menu__item}>
-                <span>Загрузить воспоминание</span><i className="fa-solid fa-upload"></i> 
+                <span>Расписание недели</span><i className="fa-solid fa-upload"></i> 
                 </Link>
                 <Link to="/Registration" className={h.menu__item}>
                 <span>Личный кабинет</span><i className="fa-solid fa-user"></i>
@@ -44,11 +58,26 @@ const Header = () => {
     }
     }, users)
     
+
+    const [isActive, setActive] = useState(true)
+    const [isIcon, setIcon] = useState(<i className="fa-solid fa-bars"></i>)
+    const headerChange = () =>{
+        if(isActive){
+            setIcon(<i className="fa-solid fa-xmark"></i>)
+        }else{
+            setIcon(<i className="fa-solid fa-bars"></i>)
+        }
+        setActive(!isActive)
+    }
+
     return(
-    <header>
-        <User {...actualUser}/>
-        <Menu />
-    </header>
+    <div className={isActive ? h.container + ' ' + h.nonActive  : h.container }>
+        <header>
+            <User {...actualUser}/>
+            <Menu />
+        </header>
+        <CloseOpen onClick={headerChange} Icon={isIcon} active={isActive} />
+    </div >
     )
 }
 export default Header;

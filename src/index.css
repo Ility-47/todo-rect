@@ -1,6 +1,14 @@
 :root {
   --index: calc(1vh + 1vw);
+  --gray900: #212121; /*фон*/
+  --gray100: #F5F5F5; /*текст*/
+  --gray700: #616161; /*инфоиконки*/
+  --gray600: #757575; /*обычные иконки*/
+  --gray500: #9E9E9E; /*подписи*/
+  --gray400: #BDBDBD; /*надписи*/
+  --purple: #8a2be2; /*акценты*/
 }
+
 
 *{
   margin: 0;
@@ -11,10 +19,33 @@
 
 body{
   overflow: hidden;
+  background-color: var(--gray900);
+  color: var(--gray100);
+  font-family: 'ubuntu';
 }
 
 .container{
+  margin-left: auto;
+  width: 85vw;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+}
+
+@font-face {
+  font-family: 'ubuntu';
+  font-weight: 400;
+  src: url('./assets/fonts/Ubuntu-Medium.ttf');
+}
+
+@font-face {
+  font-family: 'ubuntu';
+  font-weight: 200;
+  src: url('./assets/fonts/Ubuntu-Light.ttf');
+}
+@font-face {
+  font-family: 'ubuntu';
+  font-weight: 900;
+  src: url('./assets/fonts/Ubuntu-Bold.ttf');
 }

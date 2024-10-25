@@ -1,13 +1,50 @@
-header i{
-    font-size: 0;
+.container{
+    width: 18vw;
+    position: relative;
+    transition: .7s;
 }
+
+.container.nonActive{
+    transform: translateX(-15vw);
+}
+
 header{
     width: 15vw;
     height: 100vh;
     position: fixed;
-    background: linear-gradient( #6341b4, #512da8);  
+    z-index: 1000;
+    background-color: var(--gray700);
     border-radius: 0 45px 45px 0;
     box-shadow: 1px 0 20px rgba(0, 0, 0, 0.575);
+}
+
+.closeOpen{
+    font-size: calc(var(--index) * 1.5);
+    color: var(--gray100);
+    position: absolute;
+    z-index: 200;
+    right: 0;
+    top: calc(var(--index) * 1);
+    background-color: transparent;
+}
+
+.closeOpen:focus{
+    border: none;
+}
+
+.close__container{
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: black;
+    opacity: .4;
+    z-index: 100;
+}
+
+.close__container.active__back{
+    width: 0;
 }
 
 /*карточка пользователя*/
@@ -18,7 +55,7 @@ header{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: #ffffff;
+    color: var(--gray100);
 }
 
 .logo{
@@ -32,8 +69,8 @@ header{
     width: 45px;
     height: 45px;
     border-radius: 50%;
-    border: 1px solid #856bc2;
-    box-shadow: 0 1px 6px #281457;
+    border: 1px solid var(--gray600);
+    box-shadow: 0 1px 6px var(--gray900);
 }
 
 .user__info{
@@ -54,7 +91,7 @@ header{
 .underline{
     width: 90%;
     height: 1px;
-    background-color: #856bc2;
+    background-color: var(--gray600);
     margin: 0 auto;
 
 }
@@ -82,7 +119,7 @@ header{
 }
 
 .menu__item:hover{
-    background-color: #44268a;
+    background-color: var(--gray600);
 }
 
 .menu__item{
