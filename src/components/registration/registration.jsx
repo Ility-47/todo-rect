@@ -18,11 +18,6 @@ const Registration = () =>{
         one: 1,
         two: 100,
     })
-    
-    // const handleAnimationEnd = () => {
-    //     // Устанавливаем z-index на 1000 после окончания анимации
-    //     setTimeout(() => (setZIndex(1000)), 1000)
-    // };
 
     //Добавление эктив при нажатии на переключатель формы
     const changeActive = () =>{
@@ -82,7 +77,6 @@ const Registration = () =>{
             <div 
                 className={isActiveClass ? s.wrapper + ' ' + s.logIn + ' ' + s.active : s.wrapper}
                 style={{zIndex: zIndex.one}}
-                // onAnimationStart={handleAnimationEnd}
             >
                 <h2 className={s.title}>Здравствуйте!</h2>
                 <form action="">
@@ -110,7 +104,6 @@ const Registration = () =>{
             <div 
                 className={!isActiveClassTwo ? s.wrapper + ' ' + s.signIn : s.wrapper + ' ' + s.signIn + ' ' + s.active }
                 style={{zIndex: zIndex.two}} 
-              //  onAnimationStart={handleAnimationEnd}
             >
                 <h2 className={s.title}>Добро пожаловать!</h2>
                 <form action="">
