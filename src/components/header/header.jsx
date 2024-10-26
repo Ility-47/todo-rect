@@ -39,10 +39,10 @@ const Menu = () =>{
         <div className={h.menu}>
             <div className={h.wrapper}>
                 <Link to="/Table" className={h.menu__item}>
-                <span>Расписание недели</span><i className="fa-solid fa-upload"></i> 
+                <i className="fa-solid fa-table"></i><span>Расписание недели</span> 
                 </Link>
                 <Link to="/Registration" className={h.menu__item}>
-                <span>Личный кабинет</span><i className="fa-solid fa-user"></i>
+                <i className="fa-solid fa-user"></i><span>Личный кабинет</span>
                 </Link>
             </div>
         </div>

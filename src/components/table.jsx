@@ -4,7 +4,54 @@ import { useState, useRef } from 'react'
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-let Table = () =>{
+const AddTask = ({handleText, selectedDate, setSelectedDate, pushTask, toggleAdd}) => {
+    const [isActive, setActive] = useState(false);
+    const handleActive = () => {
+        setActive(!isActive)
+       // toggleAdd(day.name)
+    }
+    return (
+        <div className={s.table__add__task} >
+           
+            <div className={!isActive ? s.table__add__task__prop : s.table__add__task__prop + ' ' + s.active}>
+                <div className={s.table__add__wrapper}>
+                    <input className={s.table__textInput} type="text" onChange={handleText} />
+                    <DatePicker
+                        selected={selectedDate}
+                        onChange={(date) => setSelectedDate(date)} // обновляем дату
+                        showMonthDropdown  // показать выбор месяца
+                        showTimeSelect
+                        dropdownMode="select" // стиль выбора (выпадающий список)
+                        dateFormat="dd/MM/yyyy" // формат даты
+                        customInput={
+                            <span className={s.table__dateIcon}>
+                                <i className="fa-regular fa-calendar"></i>
+                            </span>
+                        }
+                    />
+                </div>
+                <button className={s.table__send__button} onClick={() => pushTask()}>send</button>
+            </div>
+
+            <button className={s.table__add__button} onClick={handleActive}> <i className="fa-solid fa-plus"></i></button >
+        </div >
+    )
+}
+
+const TableCol = ({day}) =>{
+    return(
+        <div className={s.table__col}>
+            <h3 className={s.table__col__name}>{day.name}</h3>
+
+            {tasks.map((item, keyt) => {  // цикл по задачам
+                if (item.date.weekday.toLowerCase() == day.name)
+                    return (<div className={s.table__task} key={keyt}>{`${item.text}, ${item.date.day} ${item.date.month} ${item.date.time}`}</div>)
+            })}
+        </div>        
+    )
+}
+
+const Table = () =>{
     const [isTask, getTask] = useState('')
     const [selectedDate, setSelectedDate] = useState(null);
     const [days, setDays] = useState([
@@ -71,18 +118,18 @@ let Table = () =>{
     const dateParts = getDateParts(selectedDate);
     
     
-    const pushTask = (dayEvent) =>{ // создание задачи
-        days.map(day =>{
-            if(isTask != '' && day.name == dayEvent.name){
-                tasks.push({
+    const pushTask = () =>{ // создание задачи
+        // days.map(day =>{
+        //     if(isTask != '' && day.name == dayEvent.name){
+                 tasks.push({
                     id: tasks.length + 1,
                     text: isTask,
-                    day: day.name,
+                    day: dateParts.weekday,
                     date: dateParts,
                 })
-                day.isActiveAdd = false
-            }
-        })
+              //  day.isActiveAdd = false
+        //    }
+        //})
         tasks.sort((a,b) => a.date - b.date)
         getTask('')
         setSelectedDate(null)
@@ -95,51 +142,15 @@ let Table = () =>{
     };
 
     return(
-        <>
-        <h1 className={s.title}>Таблица</h1> 
-        <div className={s.table__container}>
-                {days.map((day, key) =>(  // цикл по дням
-                    <div className={s.table__col} key={key}>
-                        <h3 className={s.table__col__name}>{day.name}</h3>
-                        
-                            {tasks.map(item =>{  // цикл по задачам
-                                if(item.date.weekday.toLowerCase() == day.name) 
-                                    return (<div className={s.table__task}>{`${item.text}, ${item.date.day} ${item.date.month} ${item.date.time}`}</div>)
-                            })}
-
-                        {/* далее для добавления задачи */}
-                        <div className={s.table__add__task}>   
-                            {day.isActiveAdd && (
-                                <>
-                                    <div className={s.table__add__wrapper}>
-                                        <input className={s.table__textInput} type="text" onChange={handleText} />
-                                        <DatePicker
-                                            selected={selectedDate}
-                                            onChange={(date) => setSelectedDate(date)} // обновляем дату
-                                            showMonthDropdown  // показать выбор месяца
-                                            showTimeSelect
-                                            dropdownMode="select" // стиль выбора (выпадающий список)
-                                            dateFormat="dd/MM/yyyy" // формат даты
-                                            customInput={
-                                                <span className={s.table__dateIcon}>
-                                                    <i className="fa-regular fa-calendar"></i>
-                                                </span>
-                                            }
-                                        />
-                                        {/* <input className={s.table__dateInput} type="date" id="inputDate" ref={dateInputRef}/>
-                                        <span className={s.table__dateIcon} onClick={handleCalendarClick}>
-                                            <i className="fa-regular fa-calendar"></i>
-                                        </span> */}
-                                    </div>                                        
-                                    <button className={s.table__send__button} onClick={() => pushTask(day)}>send</button>
-                                </>
-                                )}
-                            <button className={s.table__add__button} onClick={() => toggleAdd(day.name)}><i className="fa-solid fa-plus"></i></button>
-                        </div> 
-                    </div>        
-                ))}
+        <div className={s.table}>
+            <h1 className={s.title}>Расписание на неделю</h1> 
+            <div className={s.table__container}>
+                    {days.map((day, key) =>(  // цикл по дням
+                        <TableCol key={key} day={day} />
+                    ))}
+            </div>
+            <AddTask handleText={handleText} selectedDate={selectedDate} setSelectedDate={setSelectedDate} pushTask={pushTask} toggleAdd={toggleAdd} />        
         </div>
-        </>
     )
 }
 
