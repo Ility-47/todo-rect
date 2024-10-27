@@ -119,17 +119,12 @@ const Table = () =>{
     
     
     const pushTask = () =>{ // создание задачи
-        // days.map(day =>{
-        //     if(isTask != '' && day.name == dayEvent.name){
                  tasks.push({
                     id: tasks.length + 1,
                     text: isTask,
                     day: dateParts.weekday,
                     date: dateParts,
                 })
-              //  day.isActiveAdd = false
-        //    }
-        //})
         tasks.sort((a,b) => a.date - b.date)
         getTask('')
         setSelectedDate(null)
