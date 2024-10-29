@@ -8,6 +8,9 @@ const AddTask = ({handleText, selectedDate, setSelectedDate, pushTask, toggleAdd
     const [isActive, setActive] = useState(false);
     const handleActive = () => {
         setActive(!isActive)
+        if(isActive){
+            pushTask()
+        }
        // toggleAdd(day.name)
     }
     return (
@@ -15,7 +18,6 @@ const AddTask = ({handleText, selectedDate, setSelectedDate, pushTask, toggleAdd
            
             <div className={!isActive ? s.table__add__task__prop : s.table__add__task__prop + ' ' + s.active}>
                 <div className={s.table__add__wrapper}>
-                    <input className={s.table__textInput} type="text" onChange={handleText} />
                     <DatePicker
                         selected={selectedDate}
                         onChange={(date) => setSelectedDate(date)} // обновляем дату
@@ -29,11 +31,12 @@ const AddTask = ({handleText, selectedDate, setSelectedDate, pushTask, toggleAdd
                             </span>
                         }
                     />
+                    <input className={s.table__textInput} type="text" onChange={handleText} />
                 </div>
-                <button className={s.table__send__button} onClick={() => pushTask()}>send</button>
+                {/* <button className={s.table__send__button} onClick={() => pushTask()}>send</button> */}
             </div>
 
-            <button className={s.table__add__button} onClick={handleActive}> <i className="fa-solid fa-plus"></i></button >
+            <button className={!isActive ? s.table__add__button : s.table__add__button + ' ' + s.active__btn} onClick={handleActive}> <i className="fa-solid fa-plus"></i></button >
         </div >
     )
 }
@@ -119,17 +122,12 @@ const Table = () =>{
     
     
     const pushTask = () =>{ // создание задачи
-        // days.map(day =>{
-        //     if(isTask != '' && day.name == dayEvent.name){
                  tasks.push({
                     id: tasks.length + 1,
                     text: isTask,
                     day: dateParts.weekday,
                     date: dateParts,
                 })
-              //  day.isActiveAdd = false
-        //    }
-        //})
         tasks.sort((a,b) => a.date - b.date)
         getTask('')
         setSelectedDate(null)
