@@ -55,3 +55,21 @@ body{
   font-weight: 900;
   src: url('./assets/fonts/Ubuntu-Bold.ttf');
 }
+
+
+
+/*специально для дэйт пикера*/
+
+.react-datepicker-wrapper{
+  height: calc(var(--index) * 1.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.react-datepicker__input-container{
+  height: calc(var(--index) * 1.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

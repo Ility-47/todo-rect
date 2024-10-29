@@ -57,6 +57,7 @@
 .table__add__task__prop{
     opacity: 0;
     transition: .7s;
+    width: calc(var(--index) * 13);
 }
 
 .table__add__task__prop.active{
@@ -65,10 +66,10 @@
 
 .table__add__wrapper{
     display: flex;
-    justify-content: space-between;
+    justify-content:end;
     align-items: center;
     width: 100%;
-    margin-top: calc(var(--index) * .5);
+    padding: calc(var(--index) * .5) 0;
 }
 
 .table__add__button{
@@ -79,6 +80,22 @@
     padding: calc(var(--index) * .3) 0 ;
     border-radius: 50%;
     cursor: pointer;
+    transition: 1s; 
+    transform: translateX(0) rotate(0deg);
+}
+
+.table__add__button.active__btn{
+    transform:  translateX(calc(var(--index) * -10.5)) rotate(-360deg) ;
+    animation: btnDrive 2s;
+}
+
+@keyframes btnDrive {
+    0%{
+        transform: translateX(0) rotate(0deg) ;
+    }
+    100%{
+        transform: translateX(calc(var(--index) * -10.5)) rotate(-360deg) ;
+    }
 }
 
 .table__send__button{
@@ -92,10 +109,10 @@
 
 
 .table__textInput{
+    height: calc(var(--index) * 1.45);
     font-size: calc(var(--index) * .9);
     padding: calc(var(--index) * .2) calc(var(--index) * .1);
-    border: 1px solid black;
-    border-radius: 10px 0 0 10px;
+    border-radius: 0 10px 10px 0;
 }
 
 /* .table__dateInput {
@@ -106,10 +123,13 @@
 } */
   
  .table__dateIcon{
+    height: 100%;
     cursor: pointer; 
     padding: calc(var(--index) * .2) calc(var(--index) * .3);
     font-size: calc(var(--index) * .9);
     background-color: #fff; 
-    border: 1px solid black; 
-    border-radius: 0 10px 10px 0; 
+    color: var(--gray900);
+    border-radius: 10px 0 0 10px; 
+    margin-right: 1px;
 } 
+
