@@ -35,13 +35,26 @@
     margin-bottom: calc(var(--index) * .5);
 }
 
+
 .table__task{
     width: 100%;
-    border: 1px solid black;
+    border: 1px solid var(--gray600);
     border-radius: 10px;
-    font-size: calc(var(--index) * .9);
+    font-size: calc(var(--index) * .4);
     padding: calc(var(--index) * .4) calc(var(--index) * .2);
     margin-top: calc(var(--index) * .5);
+}
+
+.table__task textarea{
+    font-size: calc(var(--index) * .8);
+    color: var(--gray100);
+    background-color: var(--gray900);
+    resize: none;
+    overflow: hidden;
+}
+
+textarea:focus, textarea:active{
+    outline: none;
 }
 
 .table__add__task{

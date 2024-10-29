@@ -1,17 +1,19 @@
 import s from './table.module.css'
 import {tasks} from '../state.js'
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { sortTasks } from '../script';
 
-const AddTask = ({handleText, selectedDate, setSelectedDate, pushTask, toggleAdd}) => {
+const AddTask = ({handleText, selectedDate, setSelectedDate, pushTask}) => {
     const [isActive, setActive] = useState(false);
-    const handleActive = () => {
+    const refInput = useRef()
+    const handleActive = (event) => {
         setActive(!isActive)
         if(isActive){
             pushTask()
         }
-       // toggleAdd(day.name)
+        refInput.current.value = ''
     }
     return (
         <div className={s.table__add__task} >
@@ -31,9 +33,12 @@ const AddTask = ({handleText, selectedDate, setSelectedDate, pushTask, toggleAdd
                             </span>
                         }
                     />
-                    <input className={s.table__textInput} type="text" onChange={handleText} />
+                    <input 
+                    className={s.table__textInput} 
+                    type="text" 
+                    onChange={handleText}
+                    ref={refInput} />
                 </div>
-                {/* <button className={s.table__send__button} onClick={() => pushTask()}>send</button> */}
             </div>
 
             <button className={!isActive ? s.table__add__button : s.table__add__button + ' ' + s.active__btn} onClick={handleActive}> <i className="fa-solid fa-plus"></i></button >
@@ -42,13 +47,39 @@ const AddTask = ({handleText, selectedDate, setSelectedDate, pushTask, toggleAdd
 }
 
 const TableCol = ({day}) =>{
+    //для автоматического изменения текстареа
+    const [text, setText] = useState('');
+    const textareaRef = useRef(null);
+
+    // Функция для обновления текста
+    const handleChange = (event) => {
+        setText(event.target.value);
+    };
+
+    // Эффект для автоматической настройки высоты
+    useEffect(() => {
+        if (textareaRef.current) {
+            textareaRef.current.style.height = 'auto'; // Сбрасываем высоту
+            textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`; // Устанавливаем новую высоту
+        }
+    }, [text]); // Запускаем эффект при изменении текста
+
     return(
         <div className={s.table__col}>
             <h3 className={s.table__col__name}>{day.name}</h3>
 
             {tasks.map((item, keyt) => {  // цикл по задачам
                 if (item.date.weekday.toLowerCase() == day.name)
-                    return (<div className={s.table__task} key={keyt}>{`${item.text}, ${item.date.day} ${item.date.month} ${item.date.time}`}</div>)
+                    return (<div className={s.table__task} key={keyt}>
+                                <textarea 
+                                    onChange={handleChange}
+                                    ref={textareaRef}
+                                    value={text}
+                                >
+                                  ${item.text}   
+                                </textarea>
+                                {`${item.date.day} ${item.date.month} ${item.date.time}`}
+                        </div>)
             })}
         </div>        
     )
@@ -127,17 +158,19 @@ const Table = () =>{
                     text: isTask,
                     day: dateParts.weekday,
                     date: dateParts,
+                    __time: dateParts.time
                 })
-        tasks.sort((a,b) => a.date - b.date)
+                console.log(tasks)
+        sortTasks(tasks)
         getTask('')
         setSelectedDate(null)
     }
-    // код для дней недели
-    const toggleAdd = (name) => {
-        setDays(days.map(day => 
-          day.name === name ? { ...day, isActiveAdd: !day.isActiveAdd } : day
-        ));
-    };
+    // // код для дней недели
+    // const toggleAdd = (name) => {
+    //     setDays(days.map(day => 
+    //       day.name === name ? { ...day, isActiveAdd: !day.isActiveAdd } : day
+    //     ));
+    // };
 
     return(
         <div className={s.table}>
@@ -147,7 +180,7 @@ const Table = () =>{
                         <TableCol key={key} day={day} />
                     ))}
             </div>
-            <AddTask handleText={handleText} selectedDate={selectedDate} setSelectedDate={setSelectedDate} pushTask={pushTask} toggleAdd={toggleAdd} />        
+            <AddTask handleText={handleText} selectedDate={selectedDate} setSelectedDate={setSelectedDate} pushTask={pushTask}  />        
         </div>
     )
 }
